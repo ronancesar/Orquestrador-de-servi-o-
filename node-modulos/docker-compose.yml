@@ -1,0 +1,58 @@
+services:
+ 
+  api:
+    build: .
+    container_name: smart-integrator-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/usr/src/app/src
+    environment:
+     
+      - NODE_ENV=development
+      - DB_DIALECT=postgres
+      - DB_HOST=db_postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASS=admin
+      - DB_NAME=smart_integrator_db
+
+     
+      - MONGO_USER=mongoadmin
+      - MONGO_PASS=mongopassword
+      - MONGO_HOST=db_mongo
+      - MONGO_PORT=27017
+      - MONGO_DB_NAME=smart_integrator_logs
+
+    depends_on:
+      - db_postgres
+      - db_mongo 
+
+
+  db_postgres:
+    image: postgres:14-alpine
+    container_name: smart-integrator-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=smart_integrator_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  db_mongo:
+    image: mongo:latest 
+    container_name: smart-integrator-logs-db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=mongopassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db o
+
+
+volumes:
+  postgres_data:
+  mongo_data: 

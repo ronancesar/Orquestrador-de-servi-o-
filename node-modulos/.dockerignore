@@ -1,0 +1,8 @@
+# Vai Ignorar a pasta de dependências local
+node_modules
+
+# Esse Ignora o banco de dados de desenvolvimento
+database.sqlite
+
+# E esse Ignora logs do npm
+npm-debug.log
